@@ -23,7 +23,7 @@ Or install it yourself as:
 Please see [Ractor::TVar](https://github.com/ko1/ractor-tvar) before using this.  
 Now we have only `value` and `value=` operations.
 
-```
+```ruby
 require 'ractor-tmvar'
 
 tv1 = Ractor::TMVar.new(0)
@@ -58,7 +58,6 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/yoshitsugu/ractor-tmvar.
-
 
 ## License
 
