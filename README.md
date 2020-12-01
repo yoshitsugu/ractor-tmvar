@@ -24,7 +24,7 @@ Please see [Ractor::TVar](https://github.com/ko1/ractor-tvar) before using this.
 Now we have only `value` and `value=` operations.
 
 ```ruby
-require 'ractor-tmvar'
+require 'ractor/tmvar'
 
 tv1 = Ractor::TMVar.new(0)
 tv2 = Ractor::TMVar.new(0)
@@ -34,19 +34,20 @@ rs = 100.times.map do
     value2 = nil
     Ractor.atomically do
       # take value similar to takeTMVar in Haskell
-      value1 = v1.value
-      value2 = v2.value
+      value1 = v1.take
+      value2 = v2.take
     end
     Ractor.atomically do
       # set value similar to putTMVar in Haskell
-      v2.value = value2 + 2
-      v1.value = value1 + 1
+      v2.put(value2 + 2)
+      v1.put(value1 + 1)
     end
   end
 end
 rs.each(&:take)
-assert_equal 100, tv1.value
-assert_equal 200, tv2.value
+
+tv1.read #=> 100
+tv2.read #=> 200
 ```
 
 ## Development
