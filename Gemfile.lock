@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ractor-tmvar (0.1.0)
+    ractor-tmvar (0.2.0)
       ractor-tvar (~> 0.3.0)
 
 GEM
