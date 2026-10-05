@@ -44,12 +44,6 @@ class Ractor
       assert_equal :ok, v
     end
 
-    test "Ractor::TMVar can not set the unshareable value" do
-      assert_raise ArgumentError do
-        Ractor::TMVar.new [1]
-      end
-    end
-
     test "Ractor::TMVar can avoid deadlock" do
       tv1 = Ractor::TMVar.new(0)
       tv2 = Ractor::TMVar.new(0)
@@ -67,7 +61,7 @@ class Ractor
           end
         end
       end
-      rs.each(&:take)
+      rs.each(&:value)
       tv1_value = nil
       tv2_value = nil
       Ractor.atomically do

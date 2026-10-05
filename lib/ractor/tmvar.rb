@@ -13,7 +13,9 @@ class Ractor
     #
     # initialize TMVar
     #
-    # @param [Object] value Value to set TVar. It needs to be shareable.
+    # @param [Object] value value to set. With ractor-sharing 0.3, the value is
+    #   automatically made Ractor-shareable and the passed object is frozen.
+    #   This behavior is provided by the upstream Ractor::TVar, not a TMVar guarantee.
     #
     # @return [TMVar]
     #
@@ -79,7 +81,9 @@ class Ractor
     # write the given value.
     # If the current value is not "empty", it retries the transaction.
     #
-    # @param [Object] new_value neet to be shareable
+    # @param [Object] new_value value to set. With ractor-sharing 0.3, the value is
+    #   automatically made Ractor-shareable and the passed object is frozen.
+    #   This behavior is provided by the upstream Ractor::TVar, not a TMVar guarantee.
     #
     def put(new_value)
       raise Ractor::RetryTransaction if @tvar.value != EMPTY
@@ -92,7 +96,9 @@ class Ractor
     # If the value is not "empty", it will not retry and only return false.
     # If it succeed to put, it returns true.
     #
-    # @param [Object] new_value neet to be shareable
+    # @param [Object] new_value value to set. With ractor-sharing 0.3, the value is
+    #   automatically made Ractor-shareable and the passed object is frozen.
+    #   This behavior is provided by the upstream Ractor::TVar, not a TMVar guarantee.
     #
     def try_put(new_value)
       return false if @tvar.value != EMPTY
@@ -113,7 +119,9 @@ class Ractor
     #
     # get the the value like +get+, and replace the value to the given value if the current value is not "empty"
     #
-    # @param [Object] new_value neet to be shareable
+    # @param [Object] new value to set. With ractor-sharing 0.3, the value is
+    #   automatically made Ractor-shareable and the passed object is frozen.
+    #   This behavior is provided by the upstream Ractor::TVar, not a TMVar guarantee.
     #
     def swap(new)
       v = @tvar.value

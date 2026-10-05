@@ -1,5 +1,7 @@
+plugins:
+  - rubocop-rake
+
 AllCops:
-  TargetRubyVersion: 2.7
   NewCops: enable
 
 Style/StringLiterals:
@@ -17,3 +19,7 @@ Metrics/ClassLength:
   Enabled: true
   Exclude:
     - "test/**/*"
+
+Naming/PredicateMethod:
+  AllowedMethods:
+    - try_put

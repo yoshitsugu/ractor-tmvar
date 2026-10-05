@@ -1,6 +1,6 @@
 # Ractor::TMVar
 
-TMVar for Ractor inspired by [Haskell's TMVar](https://hackage.haskell.org/package/stm-2.5.0.0/docs/Control-Concurrent-STM-TMVar.html) based on [Ractor::TVar](https://github.com/ko1/ractor-tvar).
+TMVar for Ractor inspired by [Haskell's TMVar](https://hackage.haskell.org/package/stm-2.5.0.0/docs/Control-Concurrent-STM-TMVar.html) based on [Ractor::TVar](https://github.com/ko1/ractor-sharing/blob/main/docs/tvar.md).
 
 ## Installation
 
@@ -41,7 +41,7 @@ rs = 100.times.map do
     end
   end
 end
-rs.each(&:take)
+rs.each(&:value)
 
 tv1.read #=> 100
 tv2.read #=> 200

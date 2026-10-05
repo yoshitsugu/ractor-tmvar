@@ -9,4 +9,6 @@ gem "rake", "~> 13.0"
 
 gem "test-unit", "~> 3.0"
 
-gem "rubocop", "~> 0.80"
+gem "rubocop", "~> 1.91"
+
+gem "rubocop-rake", "~> 0.7"
