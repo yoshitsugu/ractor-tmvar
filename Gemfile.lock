@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ractor-tmvar (0.2.0)
+    ractor-tmvar (0.3.0)
       ractor-sharing (~> 0.3.0)
 
 GEM
@@ -69,7 +69,7 @@ CHECKSUMS
   prism (1.9.0) sha256=7b530c6a9f92c24300014919c9dcbc055bf4cdf51ec30aed099b06cd6674ef85
   racc (1.8.1) sha256=4a7f6929691dbec8b5209a0b373bc2614882b55fc5d2e447a21aaa691303d62f
   ractor-sharing (0.3.0) sha256=9adb2f899e4e38f477a2d3c02368e8ff40be96b119172312253338ee1e22f63f
-  ractor-tmvar (0.2.0)
+  ractor-tmvar (0.3.0)
   rainbow (3.1.1) sha256=039491aa3a89f42efa1d6dec2fc4e62ede96eb6acd95e52f1ad581182b79bc6a
   rake (13.4.2) sha256=cb825b2bd5f1f8e91ca37bddb4b9aaf345551b4731da62949be002fa89283701
   regexp_parser (2.13.1) sha256=5aedb6b7c35688f51e86eef17a15374dfd287c83f4ca644b2c5f3ec50a33b44b
