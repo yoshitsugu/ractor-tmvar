@@ -1,0 +1,54 @@
+name: Build and attest gem
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    steps:
+      - name: Check out tagged source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@e81a8fa391b11a595c1b7ed84177cc0fe02faf83 # v1
+        with:
+          ruby-version: '4.0'
+          bundler-cache: true
+
+      - name: Check release tag matches gem version
+        run: |
+          ruby -r ./lib/ractor/tmvar/version -e '
+            expected = "refs/tags/v#{Ractor::TMVar::VERSION}"
+            abort "Expected #{expected}, got #{ENV.fetch("GITHUB_REF")}" unless ENV.fetch("GITHUB_REF") == expected
+          '
+
+      - name: Run tests and lint
+        run: bundle exec rake
+
+      - name: Build gem
+        run: |
+          mkdir -p pkg
+          gem build ractor-tmvar.gemspec --output "pkg/ractor-tmvar-${GITHUB_REF_NAME#v}.gem"
+
+      - name: Attest gem provenance
+        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4
+        with:
+          subject-path: pkg/*.gem
+
+      - name: Save gem
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: ractor-tmvar-${{ github.ref_name }}
+          path: pkg/*.gem
+          if-no-files-found: error
