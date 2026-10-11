@@ -7,3 +7,6 @@
 /spec/reports/
 /tmp/
 /vendor/
+.pi
+.env
+.env.local
