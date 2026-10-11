@@ -108,14 +108,6 @@ After checking out the repo, run `bin/setup` to install dependencies. Then, run 
 
 To install this gem onto your local machine, run `bundle exec rake install`.
 
-## Verifying gem provenance
-
-Verify a downloaded gem's build provenance attestation with the GitHub CLI:
-
-```sh
-gh attestation verify ractor-tmvar-0.3.0.gem -R yoshitsugu/ractor-tmvar
-```
-
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/yoshitsugu/ractor-tmvar.
