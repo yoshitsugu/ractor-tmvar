@@ -47,6 +47,61 @@ tv1.read #=> 100
 tv2.read #=> 200
 ```
 
+`Ractor::TMVar.new` creates an empty variable, while `Ractor::TMVar.new(value)` or
+`Ractor::TMVar.new_filled(value)` creates a variable already containing `value`.
+`nil` can be stored as a normal value:
+
+```ruby
+tv = Ractor::TMVar.new_filled(nil)
+tv.empty? #=> false
+tv.read   #=> nil
+```
+
+### Transactional operations
+
+`take`, `put`, `swap`, `try_take`, and `try_put` must be called inside `Ractor.atomically`. `read` and
+`empty?` can be called outside of a transaction.
+
+```ruby
+tv = Ractor::TMVar.new
+Ractor.atomically { tv.put(42) }
+Ractor.atomically { tv.take } #=> 42
+```
+
+### Non-blocking try operations
+
+`try_take` and `try_read` never retry. Without a block, they return the stored
+value, or `nil` when empty. With a block, when the variable is
+empty they return `nil` without calling the block. When it is full they yield the
+stored value and return the block's result, so a stored `nil` can be told apart
+from an empty variable. `try_take` empties the variable before yielding;
+`try_read` leaves it full.
+
+```ruby
+tv = Ractor::TMVar.new(5)
+
+tv.try_read { |v| v * 2 } #=> 10
+tv.read                   #=> 5
+
+Ractor.atomically { tv.try_take { |v| v * 2 } } #=> 10
+tv.empty?                                        #=> true
+
+empty = Ractor::TMVar.new
+Ractor.atomically { empty.try_take { |v| [v] } } #=> nil (block not called)
+
+filled_with_nil = Ractor::TMVar.new_filled(nil)
+filled_with_nil.try_read { |v| [v] } #=> [nil]
+```
+
+`try_put` returns `true` when it stored the value and `false` when the variable
+was already full.
+
+```ruby
+tv = Ractor::TMVar.new
+Ractor.atomically { tv.try_put(1) } #=> true
+Ractor.atomically { tv.try_put(2) } #=> false
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
